@@ -4,7 +4,7 @@ const connectDb = () => {   // Define a function to connect to the PostgreSQL da
   const client = new Client({  // Create a new instance of the Client with the database connection details
     user: 'postgres',
     host: 'localhost',
-    database: 'EmployeeTracker',
+    database: 'employeetracker2',
     password: 'Mittens94$',
     port: 5432,
   });
