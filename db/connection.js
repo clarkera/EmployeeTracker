@@ -1,7 +1,7 @@
-const { Client } = require('pg'); // Import the pg module which is a PostgreSQL client for Node.js
+const { Client } = require('pg'); 
 
-const connectDb = () => {   // Define a function to connect to the PostgreSQL database
-  const client = new Client({  // Create a new instance of the Client with the database connection details
+const connectDb = () => {   
+  const client = new Client({  
     user: 'postgres',
     host: 'localhost',
     database: 'employeetracker2',
@@ -9,7 +9,7 @@ const connectDb = () => {   // Define a function to connect to the PostgreSQL da
     port: 5432,
   });
 
-  client.connect(err => { // Connect to the database
+  client.connect(err => { 
     if (err) {
       console.error('Connection error', err.stack);
     } else {
@@ -17,7 +17,7 @@ const connectDb = () => {   // Define a function to connect to the PostgreSQL da
     }
   });
 
-  return client; // Return the client instance to allow further operations on the database
+  return client; 
 };
 
-module.exports = connectDb; // Export the connectDb function so it can be used in other modules
+module.exports = connectDb; 

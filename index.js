@@ -1,9 +1,9 @@
-const inquirer = require('inquirer'); // Import the inquirer module for interactive command line user interfaces
-const connectDb = require('./db/connection'); // Import the connectDb function from the db/connection module
+const inquirer = require('inquirer'); 
+const connectDb = require('./db/connection'); 
 
-let db; // Initialize the database connection variable
+let db; 
 
-const startApp = () => { // Function to start the application and prompt the user for an action
+const startApp = () => { 
     inquirer.prompt([{
         type: 'list',
         name: 'action',
@@ -19,11 +19,11 @@ const startApp = () => { // Function to start the application and prompt the use
             'Exit'
         ]
     }]).then((response) => {
-        handleUserSelection(response.action); // Handle the user's selection
+        handleUserSelection(response.action); 
     });
 };
 
-const handleUserSelection = (action) => { // Function to handle the user's selection
+const handleUserSelection = (action) => { 
     db = connectDb();
     if (action === 'View All Departments') {
         viewDepartments();
@@ -39,24 +39,24 @@ const handleUserSelection = (action) => { // Function to handle the user's selec
         addEmployee();
     } else if (action === 'Update an Employee Role') {
         updateEmployeeRole();
-    } else if (action === 'Exit') { // End the database connection and exit the application
+    } else if (action === 'Exit') { 
         db.end();
         console.log("Goodbye!");
     } else {
-        console.log("Invalid action!"); // Handle invalid action
+        console.log("Invalid action!"); 
         startApp();
     }
 };
 
-const viewDepartments = () => { // Function to view all departments
+const viewDepartments = () => { 
     db.query(`SELECT * FROM department`, (err, result) => {
         if (err) throw err;
-        console.table(result.rows);  // Display the results in a table format
+        console.table(result.rows);  
         startApp();
     });
 };
 
-const viewRoles = () => { // Function to view all roles
+const viewRoles = () => { 
     const query = `
         SELECT role.id, role.title, department.name AS department, role.salary 
         FROM role 
@@ -68,7 +68,7 @@ const viewRoles = () => { // Function to view all roles
     });
 };
 
-const viewEmployees = () => { // Function to view all employees
+const viewEmployees = () => { 
     const query = `
         SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, 
         CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
@@ -83,7 +83,7 @@ const viewEmployees = () => { // Function to view all employees
     });
 };
 
-const addDepartment = () => { // Function to add a new department
+const addDepartment = () => { 
     inquirer.prompt([
         {
             type: 'input',
@@ -100,8 +100,8 @@ const addDepartment = () => { // Function to add a new department
     });
 };
 
-const addRole = () => { // Function to add a new role
-    db.query(`SELECT * FROM department`, (err, result) => { // Query the departments to display choices to the user
+const addRole = () => { 
+    db.query(`SELECT * FROM department`, (err, result) => { 
         if (err) throw err;
 
         const departmentChoices = result.rows.map(department => ({
@@ -140,7 +140,7 @@ const addRole = () => { // Function to add a new role
     });
 };
 
-const addEmployee = () => { // Function to add a new employee
+const addEmployee = () => { 
     db.query(`SELECT * FROM role`, (err, roles) => {
         if (err) throw err;
 
@@ -196,7 +196,7 @@ const addEmployee = () => { // Function to add a new employee
     });
 };
 
-const updateEmployeeRole = () => { // Function to update an employee's role
+const updateEmployeeRole = () => { 
     db.query(`SELECT * FROM employee`, (err, employees) => {
         if (err) throw err;
 
@@ -239,4 +239,4 @@ const updateEmployeeRole = () => { // Function to update an employee's role
     });
 };
 
-startApp(); // Start the application
+startApp(); 
